@@ -32,7 +32,7 @@ const Dashboard: React.FC = () => {
               isConnected ? 'bg-green-500' : 'bg-red-500'
             }`} />
             <span className="text-sm text-gray-600">
-              {isConnected ? 'Connected' : 'Disconnected'}
+              {isConnected ? 'Disconnected' : 'Connected'}
             </span>
           </div>
           <button
