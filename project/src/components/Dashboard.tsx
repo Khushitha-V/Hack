@@ -29,22 +29,22 @@ const Dashboard: React.FC = () => {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <span className={`h-3 w-3 rounded-full ${
-              isConnected ? 'bg-red-500' :'bg-green-500' 
+              isConnected ? 'bg-green-500' : 'bg-red-500'
             }`} />
             <span className="text-sm text-gray-600">
-              {isConnected ? 'Disconnected' : 'Connected'}
+              {isConnected ? 'Connected' : 'Disconnected'}
             </span>
           </div>
           <button
             onClick={isConnected ? disconnect : connect}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
               isConnected 
-                ? 'bg-green-100 text-green-700 hover:bg-green-200'
-              : 'bg-red-100 text-red-700 hover:bg-red-200' 
+                ? 'bg-red-100 text-red-700 hover:bg-red-200' 
+                : 'bg-green-100 text-green-700 hover:bg-green-200'
             }`}
           >
             <Power className="h-4 w-4" />
-            {isConnected ? 'Connect' : 'Disconnect Device'}
+            {isConnected ? 'Disconnect' : 'Connect Device'}
           </button>
         </div>
       </div>
