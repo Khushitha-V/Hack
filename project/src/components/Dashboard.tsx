@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
             }`}
           >
             <Power className="h-4 w-4" />
-            {isConnected ? 'Disconnect' : 'Connect Device'}
+            {isConnected ? 'Connect' : 'Disconnect Device'}
           </button>
         </div>
       </div>
