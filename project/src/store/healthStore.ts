@@ -1,24 +1,37 @@
+import { create } from 'zustand';
+import type { Patient, VitalSigns, HealthAlert } from '../types/health';
+import { mockSmartWatch } from '../services/mockSmartWatch';
+
+interface HealthStore {
+  patient: Patient | null;
+  isConnected: boolean;
+  lastSync: Date | null;
+  connect: () => void;
+  disconnect: () => void;
+  updateVitals: (vitals: VitalSigns) => void;
+  addAlert: (alert: HealthAlert) => void;
+  initializePatient: () => void;
+}
+
 export const useHealthStore = create<HealthStore>((set) => ({
   patient: null,
   isConnected: false,
   lastSync: null,
   connect: () => {
-    mockSmartWatch.stopMonitoring();
-    set({ isConnected: false });
-  },
-  disconnect: () => {
     mockSmartWatch.startMonitoring((vitals) => {
       set((state) => ({
-        patient: state.patient
-          ? {
-              ...state.patient,
-              vitalSigns: vitals,
-            }
-          : null,
-        lastSync: new Date(),
+        patient: state.patient ? {
+          ...state.patient,
+          vitalSigns: vitals
+        } : null,
+        lastSync: new Date()
       }));
     });
     set({ isConnected: true, lastSync: new Date() });
+  },
+  disconnect: () => {
+    mockSmartWatch.stopMonitoring();
+    set({ isConnected: false });
   },
   updateVitals: (vitals) =>
     set((state) => ({
@@ -36,7 +49,7 @@ export const useHealthStore = create<HealthStore>((set) => ({
           }
         : null,
     })),
- initializePatient: () => {
+  initializePatient: () => {
     const mockPatient: Patient = {
       id: '1',
       name: 'John Doe',
@@ -50,8 +63,8 @@ export const useHealthStore = create<HealthStore>((set) => ({
           type: 'warning',
           message: 'Blood pressure slightly elevated',
           timestamp: new Date(),
-          acknowledged: false,
-        },
+          acknowledged: false
+        }
       ],
       medications: [
         {
@@ -59,17 +72,17 @@ export const useHealthStore = create<HealthStore>((set) => ({
           name: 'Lisinopril',
           dosage: '10mg',
           frequency: 'Once daily',
-          nextDose: new Date(Date.now() + 1000 * 60 * 60 * 4), // 4 hours from now
+          nextDose: new Date(Date.now() + 1000 * 60 * 60 * 4) // 4 hours from now
         },
         {
           id: '2',
           name: 'Aspirin',
           dosage: '81mg',
           frequency: 'Once daily',
-          nextDose: new Date(Date.now() + 1000 * 60 * 60 * 8), // 8 hours from now
-        },
-      ],
+          nextDose: new Date(Date.now() + 1000 * 60 * 60 * 8) // 8 hours from now
+        }
+      ]
     };
     set({ patient: mockPatient });
-  },
+  }
 }));
